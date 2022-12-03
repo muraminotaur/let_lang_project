@@ -36,16 +36,14 @@ func (s *Scanner) peekChar() byte {
 }
 
 //NextToken()
-func (s *Scanner) NextToken() token.Token { 
-	var tok token.Token
+func (s *Scanner) NextToken() Token { 
+	var tok Token
 
 	s.skipWhitespace()
 
 	switch s.ch {
 		case '=':
 			tok = newToken(token.EQUAL, s.ch)
-		case 'minus':
-			tok = newToken(token.MINUS, s.ch)
 		case ',':
 			tok = newToken(token.COMMA, s.ch)
 		case '(':
@@ -90,8 +88,8 @@ func (s *Scanner) skipWhitespace() {
 	}
 }
 
-func newToken(tokenType token.TokenType, ch byte) token.Token {
-	return token.Token{Type: tokenType, Literal: string(ch)}
+func newToken(tokenType TokenType, ch byte) Token {
+	return Token{Type: tokenType, Literal: string(ch)}
 }
 
 func (s *Scanner) readIdentifier() string {

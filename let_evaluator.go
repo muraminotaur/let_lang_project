@@ -9,16 +9,17 @@ type Binding struct {
 	value int
 }
 
-func Lookup(varname string, e []Binding string) Binding.value {
+func Lookup(varname string, e []Binding) int {
 	for i := range e{
 		if e[i].varname == varname{
 			return e[i].value
-		}
+		}            
 	}
+    return 0
 }
 
-func evaluate(localRoot astNode, e []Binding string) int{
-	switch localRoot.contents
+func evaluate(localRoot astNode, e []Binding) int{
+	switch localRoot.contents {
 		case "let":
 			varname := localRoot.children[0].contents
 			exp1Val := evaluate(*localRoot.children[1], e)
@@ -26,14 +27,12 @@ func evaluate(localRoot astNode, e []Binding string) int{
 			e = append(newBindingList, e...)
 			return evaluate(*localRoot.children[2], e)
 		case "identifier":
-			varname := localRoot.children[0].contents
 			return Lookup(localRoot.contents, e)
 		case "if":
 			zerocheck := evaluate(*localRoot.children[0], e)
 			if localRoot.children[0].ttype == "iszero" && zerocheck == 0{
 				return evaluate(*localRoot.children[1], e)
-			}
-			else{
+			} else{
 				return evaluate(*localRoot.children[2], e)
 			}
 		case "iszero":
@@ -41,5 +40,8 @@ func evaluate(localRoot astNode, e []Binding string) int{
 		case "minus":
 			return (evaluate(*localRoot.children[0], e) - evaluate(*localRoot.children[1], e))
 		case "integer":
-			return strconv.Atoi(localRoot.contents)
+            exp1Val, _ := strconv.Atoi(localRoot.contents)
+			return exp1Val
+    }
+    return 0
 }

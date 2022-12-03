@@ -39,7 +39,7 @@ func main(){
 	if error != nil{
 		log.Fatal(error)
 	}
-	defer file.close()
+	defer file.Close()
 
 	scanner := bufio.NewScanner(file)
 	for scanner.Scan() {
