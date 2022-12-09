@@ -1,11 +1,13 @@
 package main
 
-type TokenType string
+
 
 type Token struct {
-	Type string
+	Type TokenType
 	Literal string
 }
+
+type TokenType string
 
 const (
 	ILLEGAL = "ILLEGAL"
